@@ -23,4 +23,10 @@ app.get('/errorCount', function(req, res) {
   res.status(200).json({ errorCount });
 });
 
+//global catchAll exceptions in routes middleware (it must take 4 parameters)
+app.use((error, req, res, next) => {
+  errorCount++;
+  res.status(404).json({ msg: error.message });
+});
+
 module.exports = app;

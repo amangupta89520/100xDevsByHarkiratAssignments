@@ -14,7 +14,21 @@ const app = express();
 let numberOfRequestsForUser = {};
 setInterval(() => {
     numberOfRequestsForUser = {};
-}, 1000)
+}, 1000);
+
+app.use((req, res, next) => {
+  const userId = req.headers['user-id'];
+  if(numberOfRequestsForUser[userId]) {
+    if(numberOfRequestsForUser[userId] === 5) {
+      return res.status(404).json({ msg: 'You are blocked for sending more than 5 requests in a second' });
+    }
+    numberOfRequestsForUser[userId]++;
+  } else {
+    numberOfRequestsForUser[userId] = 1;
+  }
+  console.log(numberOfRequestsForUser);
+  next();
+})
 
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
