@@ -6,11 +6,11 @@ import React, { useState, useCallback } from 'react';
 
 export function Assignment2() {
     const [inputText, setInputText] = useState('');
-
     // Your code starts here
-    function showAlert() {
-
-    }
+    const showAlert = useCallback(() => {
+        console.log('showAlert recreated')
+        alert(inputText);
+    }, [inputText]);
     // Your code ends here
 
     return (
